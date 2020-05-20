@@ -8,8 +8,6 @@ public class main {
 		
 		int sizeTest = 4;
 		
-		ArrayList<Double> test;
-		test = new ArrayList<>();
 		
 		
 		

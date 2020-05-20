@@ -4,32 +4,19 @@ import java.util.ArrayList;
 
 public class vector {
     private int numberElement;
-    protected ArrayList<Double> tabElement;
+    protected double tabElement[];
 
 
-    public vector(int numberElement, double tabElement[]) {
+    public vector(int numberElement) {
         this.numberElement = numberElement;
-        this.tabElement = new ArrayList<Double>();
-        this.initTab(tabElement);
-    }
-
-    public vector() {
-        this.numberElement = 0;
-        this.tabElement = new ArrayList<Double>();
-    }
-
-    public void initTab(double tabElement[]) {
-        for (int i = 0 ; i < this.numberElement ; ++i) {
-            this.getTabElement().add(tabElement[i]);
-        }
+        this.tabElement = new double[numberElement];
     }
 
     public void insert(int i, double value) {
-        this.getTabElement().remove(i);
-        this.getTabElement().add(i, value);
+        this.getTabElement()[i] = value;
     }
 
-	public ArrayList<Double> getTabElement() {
+	public double[] getTabElement() {
 		return tabElement;
 	}
 
