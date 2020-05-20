@@ -24,7 +24,11 @@ public class ThirdDegreePolynomial {
     }
 
     public double calculatedDerivative(double valueX){
-        return this.coefficient1 + valueX*(this.coefficient2 + valueX*this.coefficient3);
+        return this.coefficient1 + valueX*(2*this.coefficient2 + 3*valueX*this.coefficient3);
+    }
+
+    public double calculatedDerivationTwo(double valueX) {
+        return 2*this.coefficient2 + 6*valueX*this.coefficient3;
     }
 
 
