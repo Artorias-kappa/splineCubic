@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class vector {
     private int numberElement;
-    private ArrayList<Double> tabElement;
+    protected ArrayList<Double> tabElement;
 
 
     public vector(int numberElement, double tabElement[]) {
@@ -20,14 +20,18 @@ public class vector {
 
     public void initTab(double tabElement[]) {
         for (int i = 0 ; i < this.numberElement ; ++i) {
-            this.tabElement.add(tabElement[i]);
+            this.getTabElement().add(tabElement[i]);
         }
     }
 
     public void insert(int i, double value) {
-        this.tabElement.remove(i);
-        this.tabElement.add(i, value);
+        this.getTabElement().remove(i);
+        this.getTabElement().add(i, value);
     }
+
+	public ArrayList<Double> getTabElement() {
+		return tabElement;
+	}
 
 
 }
