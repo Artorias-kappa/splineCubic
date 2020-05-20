@@ -2,11 +2,11 @@ package source;
 
 public class tridiagonalMatrix {
 	private int lenght;
-	private float middleDiagonalCoef;
-	private float lowDiagonalCoef;
-	private float hightDiagonalCoef;
+	private double middleDiagonalCoef;
+	private double lowDiagonalCoef;
+	private double hightDiagonalCoef;
 	
-	public tridiagonalMatrix(int lenght, float middleDiagonalCoef, float lowDiagonalCoef, float hightDiagonalCoef) {
+	public tridiagonalMatrix(int lenght, double middleDiagonalCoef, double lowDiagonalCoef, double hightDiagonalCoef) {
 		
 		this.lenght = lenght;
 		this.middleDiagonalCoef = middleDiagonalCoef;
@@ -18,4 +18,6 @@ public class tridiagonalMatrix {
 	public vector resolvSystem(vector b) {
 		return new vector();
 	}
+
+
 }
