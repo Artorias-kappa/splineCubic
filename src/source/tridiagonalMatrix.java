@@ -16,7 +16,6 @@ public class tridiagonalMatrix {
 	}
 	
 	public vector resolvSystem(vector b) {
-		
 		return new vector();
 	}
 }
