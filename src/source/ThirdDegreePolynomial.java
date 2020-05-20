@@ -19,14 +19,26 @@ public class ThirdDegreePolynomial {
         this.coefficient3 = 0;
     }
 
+    /** @role : This function calculate result of "this" with "valueX".
+     * @param valueX : unknown attribute, polynomial parameter.
+     * @return double, result of polynomial.
+     */
     public double calculated(double valueX) {
         return this.coefficient0 + valueX*(this.coefficient1 + valueX*(this.coefficient2 + valueX*this.coefficient3));
     }
 
+    /**@role  : Calculate the result of the third derivative of "this" with parameter "valueX".
+     * @param valueX : unknown attribute, polynomial parameter.
+     * @return double, result of polynomial.
+     */
     public double calculatedDerivative(double valueX){
         return this.coefficient1 + valueX*(2*this.coefficient2 + 3*valueX*this.coefficient3);
     }
 
+    /** @role : Calculate the result of the second derivative of "this" with parameter "valueX".
+     * @param valueX : unknown attribute, polynomial parameter.
+     * @return double, result of polynomial.
+     */
     public double calculatedDerivationTwo(double valueX) {
         return 2*this.coefficient2 + 6*valueX*this.coefficient3;
     }
