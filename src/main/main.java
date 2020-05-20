@@ -8,19 +8,13 @@ public class main {
 		
 		int sizeTest = 4;
 		
-		double test[] = {
-				4, 1, 0, 0,
-				1, 4, 1, 0,
-				0, 1, 4, 1,
-				0, 0, 1, 4
-		};
+		ArrayList<Double> test;
+		test = new ArrayList<>();
 		
 		
-		float tabX[] = {};
-		float tabY[] = {};
-
-		float tabA[] = {};
-
+		
+		
+		
 
 
 
