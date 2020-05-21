@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 
 public class main {
 
@@ -11,9 +10,11 @@ public class main {
 		
 		int sizeTest = 4;
 		
+
 		double[] test = initTab(sizeTest);
 
 		System.out.println(display(test, sizeTest));
+
 
 
 

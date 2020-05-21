@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 public class vector {
     private int numberElement;
-    protected ArrayList<Double> tabElement;
+    protected double tabElement[];
+
 
     //Constructor 1
     public vector(int numberElement, double tabElement[]) {
         this.numberElement = numberElement;
-        this.tabElement = new ArrayList<Double>();
-        this.initTab(tabElement);
+        this.tabElement = new double[numberElement];
     }
 
     //Constructor 2
     public vector() {
         this.numberElement = 0;
-        this.tabElement = new ArrayList<Double>();
+        this.tabElement = null;
     }
 
     /**
@@ -24,9 +24,8 @@ public class vector {
      * @param tabElement
      */
     public void initTab(double tabElement[]) {
-        for (int i = 0 ; i < this.numberElement ; ++i) {
-            this.getTabElement().add(tabElement[i]);
-        }
+            this.tabElement = tabElement;
+        
     }
 
     /**
@@ -35,16 +34,28 @@ public class vector {
      * @param value :
      */
     public void insert(int i, double value) {
-        this.getTabElement().remove(i);
-        this.getTabElement().add(i, value);
+        this.getTabElement()[i] = value;
     }
+
 
     /**
      * @role : This function uses to get array of element.
      * @return ArrayList<Double>
      */
-	public ArrayList<Double> getTabElement() {
+	public double[] getTabElement() {
 		return tabElement;
+	}
+	
+	/**
+	 * @role : displays a matrix in the form of an array n x n.
+	 * 
+	 */
+	public void vectorAff() {
+	    for (int i = 0; i < numberElement; i++) {
+	        System.out.print(tabElement[i]+"\t");
+	        System.out.print("\n");
+	    }
+	    System.out.print("\n");
 	}
 
 
