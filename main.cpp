@@ -232,7 +232,7 @@ int search_index (double absiss) {
 
 /**
  * Calcul with the good polynom a number.
- * @param x
+ * @param absiss
  * @return Result of calcul.
  */
 double polynom (double absiss) {
