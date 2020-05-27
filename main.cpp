@@ -43,7 +43,7 @@ void write_matrix (FILE *stream, double *w, uint64_t n_, uint64_t m_)
     {
         for(j = 0; j < m_; ++j)
         {
-            fprintf(stream, "%f \t", w[i * m_ + j]); //
+            fprintf(stream, "%f \t", w[i * m_ + j]); //Display matrix.
         }
         fprintf(stream, "\n");
     }
@@ -51,40 +51,40 @@ void write_matrix (FILE *stream, double *w, uint64_t n_, uint64_t m_)
 
 // ****************************** Create and initialize vector and matrix for spline ******************************
 /**
- * Initialization matrix of tridiagional system. Am = b.
+ * Initialization matrix of tridiagional system. Ax = b.
  */
 void create_A ()
 {
     for (int i = 1 ; i < N - 1; ++i) {
-        A[(i - 1) * (N - 2) + (i - 1)] = (X[i + 1] - X[i - 1]) / 3;
-        A[(i - 1) * (N - 2) + i] = (X[i + 1] - X[i]) / 6;
-        A[i * (N - 2) + (i - 1)] = (X[i + 1] - X[i]) / 6;
+        A[(i - 1) * (N - 2) + (i - 1)] = (X[i + 1] - X[i - 1]) / 3; //Calcul of diagonal center : (X_n - X_n-2) / 3.
+        A[(i - 1) * (N - 2) + i] = (X[i + 1] - X[i]) / 6; //Calcul of diaganol down : (X_n-2 - Xn-1) / 6.
+        A[i * (N - 2) + (i - 1)] = (X[i + 1] - X[i]) / 6; //Calcul of diaganol up : (X_n-2 - Xn-1) / 6.
     }
 
-    A[(N - 2) * (N - 2) + (N - 2)] = (X[N - 1] - X[N - 2]) / 3;
+    A[(N - 2) * (N - 2) + (N - 2)] = (X[N - 1] - X[N - 2]) / 3; //Calcul of position n*n. Last number of matrix.
 }
 
 //----------------------------------------------------------------------------------------------------
 
 /**
- * Initialization vector of resolution system. Am = b.
+ * Initialization vector of resolution system. Ax = b.
  */
 void create_b () {
     for (int i = 1 ; i < N - 1 ; ++i) {
-        b[i - 1] = ((Y[i + 1] - Y[i]) / (X[i + 1] - X[i])) - ((Y[i] - Y[i - 1]) / (X[i] - X[i - 1]));
+        b[i - 1] = ((Y[i + 1] - Y[i]) / (X[i + 1] - X[i])) - ((Y[i] - Y[i - 1]) / (X[i] - X[i - 1])); // [(Y_n - Y_n-1) / (X_n - X_n-1)] - [(Y_n-1 - Y_n-2) / (X_n-1 - X_n-2)]
     }
 }
 
 //----------------------------------------------------------------------------------------------------
 
 /**
- * Initialization vector of derivative seconde. Am = b.
+ * Construction matrix m, with 0 to position m_0 and m_n.
  */
 void create_m () {
-    m[0] = 0;
-    m[N -1] = 0;
+    m[0] = 0; //Inite m_0.
+    m[N -1] = 0; //Inite m_n
     for (int i = 1 ; i < N ; ++i) {
-        m[i] = x[i - 1];
+        m[i] = x[i - 1]; //Copy X_1 to X_n-1 in m.
     }
 }
 
@@ -96,10 +96,10 @@ void create_m () {
 void create_p () {
     for (int i = 1 ; i < N ; ++i) {
 
-        p[(i - 1) * 4 + 0] = Y[i - 1];
-        p[(i - 1) * 4 + 1] = ((Y[i] - Y[i - 1]) / ((X[i] - X[i - 1])) - ((X[i] - X[i - 1]) / 6) * (m[i] + 2 * m[i - 1]));
-        p[(i - 1) * 4 + 2] = (m[i - 1] / 2);
-        p[(i - 1) * 4 + 3] = (m[i] - m[i - 1]) / (6 * (X[i] - X[i - 1]));
+        p[(i - 1) * 4 + 0] = Y[i - 1]; //Coffecient a0 = Y_n-1.
+        p[(i - 1) * 4 + 1] = ((Y[i] - Y[i - 1]) / ((X[i] - X[i - 1])) - ((X[i] - X[i - 1]) / 6) * (m[i] + 2 * m[i - 1])); //Coofecient a1 = ( [(Y_n - Y_n-1) / (X_n - X_n-1)] - [(X_n - X_n-1) / 6] ) * (m_n + 2*m_n-1).
+        p[(i - 1) * 4 + 2] = (m[i - 1] / 2); //Coffecient a2 = m_n-1 / 2.
+        p[(i - 1) * 4 + 3] = (m[i] - m[i - 1]) / (6 * (X[i] - X[i - 1])); //Coffecient a3 = [(m_n - m_n-1) / (6 * (X_n - X_n-1))].
 
     }
 }
@@ -239,8 +239,11 @@ int search_index (double absiss) {
  */
 double polynom (double absiss) {
     int index;
-    if ((index = search_index(absiss)) != -1) {
-        return p[index * 4 + 0] + (absiss - X[index]) * (p[index * 4 + 1] + (absiss - X[index]) * (p[index * 4 + 2] + p[index * 4 + 3] * (absiss - X[index])));
+    if ((index = search_index(absiss)) != -1) { //
+        return p[index * 4 + 0] + (absiss - X[index]) * (p[index * 4 + 1] + (absiss - X[index]) * (p[index * 4 + 2] +
+                                                                                                   p[index * 4 + 3] *
+                                                                                                   (absiss -
+                                                                                                    X[index]))); //Calcul polynom_i = a0_1 + a1_i * x + a2_i * x² + a3_i * x³.    }
     }
     return -1;
 }
@@ -257,7 +260,7 @@ void polynom (const vector<double>& u) {
         cout << "\n" << endl;
         cout << "Solution Pi(u) : " << endl;
         for (double i : u) {
-            cout << polynom(i) << endl;
+            cout << polynom(i) << endl; //Calcul a0_j + a1_j * u_i + a2_j * u_i² + a3_j * u_i³.
         }
         cout << "\n" << endl;
     }
@@ -277,15 +280,21 @@ int initialization (vector<double> XX, const vector<double>& YY) {
                 return -1;
             }
         }
+
+        //Initalization X and Y.
         X = XX;
         Y = YY;
 
+        //Dimension matrix and array for resolution System gauss : Ax = b.
         n = N - 2;
-        A = (double *) calloc((N - 2) * (N -2), sizeof(double));
+
+        //Allocation array : x, m, b.
+        //Allocation matrix : A, p.
+        A = (double *) calloc(n * n, sizeof(double));
         p = (double *) calloc((N - 1) * 4, sizeof(double));
-        x = (double *) calloc(N - 2, sizeof(double));
+        x = (double *) calloc(n, sizeof(double));
         m = (double *) calloc(N, sizeof(double));
-        b = (double *) calloc(N - 2, sizeof(double));
+        b = (double *) calloc(n, sizeof(double));
 
         return 0;
     } else {
@@ -303,10 +312,10 @@ void start () {
 
     cout << "\n***************************************************** Ax = b *****************************************************" << endl;
     cout << "\nMatrix A :" << endl;
-    write_matrix(stdout, A, N - 2, N - 2);
+    write_matrix(stdout, A, n, n);
 
     cout << "\nMatrix b :" << endl;
-    write_matrix(stdout, b, N - 2, 1);
+    write_matrix(stdout, b, n, 1);
 
     if (!solve_system_gauss()) {
         cout << "singular problem : Impossible to solve system." << endl;
