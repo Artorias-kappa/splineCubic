@@ -1,3 +1,12 @@
+/*
+ * @projet : 
+ *
+ * @creation : 10/02/2020
+ *
+ * @createur : Sofiane (sofiane@etu.univ-nantes.fr),
+ *             Lou-anne (@etu.univ-nantes.fr),
+ *             GARNIER Cyprien (cyprien.garnier@etu.univ-nantes.fr).
+ */
 
 
 #include <iostream>
