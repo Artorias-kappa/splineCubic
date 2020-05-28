@@ -17,9 +17,9 @@ double *b;
 
 // ********************************* Initialization and Write Vector/Matrix *********************************
 /**
- * Allocates a n sized vector and initializes all entries to 0
- * @param n
- * @return Pointer of double array.
+ * @role : Allocates a n sized vector and initializes all entries to 0.
+ * @param : size
+ * @return : Pointer of double array.
  */
 double *allocate_vector (uint64_t size)
 {
@@ -29,15 +29,13 @@ double *allocate_vector (uint64_t size)
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Writes a matrix to a stream. For example, writing a matrix to standard output is
+ * @role : Writes a matrix to a stream. For example, writing a matrix to standard output is
  * writeMatrix(stdout, A, n, m);
  * A sream can also be a file.
 */
 void write_matrix (FILE *stream, double *w, uint64_t n_, uint64_t m_)
 {
-    fprintf(stream, "%d %d \n", (int)n_, (int)m_); //Initalization format.
     int i, j;
     for(i = 0; i < n_; ++i)
     {
@@ -51,79 +49,74 @@ void write_matrix (FILE *stream, double *w, uint64_t n_, uint64_t m_)
 
 // ****************************** Create and initialize vector and matrix for spline ******************************
 /**
- * Initialization matrix of tridiagional system. Ax = b.
+ * @role : Initialization matrix of tridiagional system. Ax = b.
  */
 void create_A ()
 {
     for (int i = 1 ; i < N - 1; ++i) {
         A[(i - 1) * (N - 2) + (i - 1)] = (X[i + 1] - X[i - 1]) / 3; //Calcul of diagonal center : (X_n - X_n-2) / 3.
-        A[(i - 1) * (N - 2) + i] = (X[i + 1] - X[i]) / 6; //Calcul of diaganol down : (X_n-2 - Xn-1) / 6.
-        A[i * (N - 2) + (i - 1)] = (X[i + 1] - X[i]) / 6; //Calcul of diaganol up : (X_n-2 - Xn-1) / 6.
+        A[(i - 1) * (N - 2) + i] = (X[i + 1] - X[i]) / 6; //Calcul of diaganal down : (X_n-2 - Xn-1) / 6.
+        A[i * (N - 2) + (i - 1)] = (X[i + 1] - X[i]) / 6; //Calcul of diaganal up : (X_n-2 - Xn-1) / 6.
     }
 
-    A[(N - 2) * (N - 2) + (N - 2)] = (X[N - 1] - X[N - 2]) / 3; //Calcul of position n*n. Last number of matrix.
+    A[(N - 2) * (N - 2) + (N - 2)] = (X[N - 1] - X[N - 2]) / 3; //Calcul of position n*n. This calculation is for the last number of matrix.
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Initialization vector of resolution system. Ax = b.
+ * @role : Initialization vector of resolution system. Ax = b.
  */
 void create_b () {
     for (int i = 1 ; i < N - 1 ; ++i) {
-        b[i - 1] = ((Y[i + 1] - Y[i]) / (X[i + 1] - X[i])) - ((Y[i] - Y[i - 1]) / (X[i] - X[i - 1])); // [(Y_n - Y_n-1) / (X_n - X_n-1)] - [(Y_n-1 - Y_n-2) / (X_n-1 - X_n-2)]
+        b[i - 1] = ((Y[i + 1] - Y[i]) / (X[i + 1] - X[i])) - ((Y[i] - Y[i - 1]) / (X[i] - X[i - 1])); // In matematics, the calculation is : [(Y_n - Y_n-1) / (X_n - X_n-1)] - [(Y_n-1 - Y_n-2) / (X_n-1 - X_n-2)]
     }
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Construction matrix m, with 0 to position m_0 and m_n.
+ * @role : Construction matrix m, with 0 to position m_0 and m_n.
  */
 void create_m () {
     m[0] = 0; //Inite m_0.
-    m[N -1] = 0; //Inite m_n
+    m[N - 1] = 0; //Inite m_n
     for (int i = 1 ; i < N ; ++i) {
         m[i] = x[i - 1]; //Copy X_1 to X_n-1 in m.
     }
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Iniitialization matrix of polynomial a0 + a1x + a2x² + a3x³
+ * @role : Iniitialization matrix of polynomial a0 + a1x + a2x² + a3x³
  */
 void create_p () {
     for (int i = 1 ; i < N ; ++i) {
 
-        p[(i - 1) * 4 + 0] = Y[i - 1]; //Coffecient a0 = Y_n-1.
-        p[(i - 1) * 4 + 1] = ((Y[i] - Y[i - 1]) / ((X[i] - X[i - 1])) - ((X[i] - X[i - 1]) / 6) * (m[i] + 2 * m[i - 1])); //Coofecient a1 = ( [(Y_n - Y_n-1) / (X_n - X_n-1)] - [(X_n - X_n-1) / 6] ) * (m_n + 2*m_n-1).
-        p[(i - 1) * 4 + 2] = (m[i - 1] / 2); //Coffecient a2 = m_n-1 / 2.
-        p[(i - 1) * 4 + 3] = (m[i] - m[i - 1]) / (6 * (X[i] - X[i - 1])); //Coffecient a3 = [(m_n - m_n-1) / (6 * (X_n - X_n-1))].
+        p[(i - 1) * 4 + 0] = Y[i - 1]; //Coefficient a0 = Y_n-1.
+        p[(i - 1) * 4 + 1] = ((Y[i] - Y[i - 1]) / ((X[i] - X[i - 1])) - ((X[i] - X[i - 1]) / 6) * (m[i] + 2 * m[i - 1])); //Coefficient a1 = ( [(Y_n - Y_n-1) / (X_n - X_n-1)] - [(X_n - X_n-1) / 6] ) * (m_n + 2*m_n-1).
+        p[(i - 1) * 4 + 2] = (m[i - 1] / 2); //Coefficient a2 = m_n-1 / 2.
+        p[(i - 1) * 4 + 3] = (m[i] - m[i - 1]) / (6 * (X[i] - X[i - 1])); //Coefficient a3 = [(m_n - m_n-1) / (6 * (X_n - X_n-1))].
 
     }
 }
 
 // ************************************ System Gauss ************************************
-
 /**
- * If error, Center ligne switch.
- * @param indexLigneOrigine
- * @param indexLigneFinal
+ * @role : If error, this procedure switch line in matrix.
+ * @param indexOriginalLine represent the original line.
+ * @param indexFinalLine represent the final line choice by the procedure.
  */
-void switch_line (int indexLigneOrigine, int indexLigneFinal) {
-    double* Amemories = allocate_vector(n);
+void switch_line (int indexOriginalLine, int indexFinalLine) {
+    double* A_memories = allocate_vector(n);
     for (int j = 0 ; j < n ; ++j) {
-        Amemories[j] = A[indexLigneFinal * n + j];
-        A[indexLigneFinal * n + j] = A[indexLigneOrigine * n + j];
-        A[indexLigneOrigine * n + j] = Amemories[j];
+        A_memories[j] = A[indexFinalLine * n + j];
+        A[indexFinalLine * n + j] = A[indexOriginalLine * n + j];
+        A[indexOriginalLine * n + j] = A_memories[j];
     }
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Verification of diganial line is not zero.
+ * @role : This function finds if in the matrix there are an entire line of zeros.
  * @param error
  */
 void switch_and_verification_zero_column (bool & error) {
@@ -141,81 +134,81 @@ void switch_and_verification_zero_column (bool & error) {
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
  * Performs Gauss elimination for given a matrix A (size n x n) and a vector b (size n).
-    Modifies directly matrix A and vector b.
-    In the end of the procedure, A is upper truangular and b is modified accordingly.
-    Returns a boolean variable:
-        *  true in case of success and
-        *  false in case of failure, for example matrix is impossible to triangularize.
- * @return
+ * Modifies directly matrix A and vector b.
+ * In the end of the function, A is upper truangular and b is modified accordingly.
+ *
+ * @return boolean :
+ *     - true in case of success.
+ *     -  false in case of failure, for example matrix is impossible to triangularize.
  */
 bool triangularize (){
     double addition;
     bool error = true;
+
     for ( int i = 0 ; i < n - 1 ; ++i ) {
         if ( A[i * n + i] == 0 ) {
-            switch_and_verification_zero_column(error);
+            switch_and_verification_zero_column(error); //COMMENTAIRE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         }
         for ( int k = i ; k < n - 1 ; ++k ) {
-            addition = A[(k + 1) * n + i] / A[i * n + i];
+            addition = A[(k + 1) * n + i] / A[i * n + i]; //Search coefficient depending pivot.
             for ( int j = i ; j < n ; ++j ) {
-                A[(k + 1) * n + j] = A[(k + 1) * n + j] - addition * A[i * n + j];
+                A[(k + 1) * n + j] = A[(k + 1) * n + j] - addition * A[i * n + j]; //Multiply variable in matrix by coefficient "addition".
             }
-            b[k + 1] = b[k + 1] - addition * b[i];
+            b[k + 1] = b[k + 1] - addition * b[i]; //Solve vector b by coefficient "addition".
         }
     }
     return error;
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- *Solves a system of linear equations Ax=b for a double-precision matrix A (size n x n).
- *Uses iterative ascension algorithm.
- *After the procedure, x contains the solution of Ax=b.
+ * @role : Solves a system of linear equations Ax=b for a double-precision matrix A (size n x n).
+ * Uses iterative ascension algorithm.
+ * After the procedure, x contains the solution of Ax=b.
 */
 void solve_triangular_system_UP (){
+
     if(triangularize()){
+
         for(int i = n - 1 ; i >= 0 ; i--){
             b[i] = b[i]/A[i * n + i];
             A[i * n + i] = 1;
+
             for(int j = i - 1 ; j >= 0 ; j--){
                 b[j] = b[j]-b[i]*A[j * n + i];
-                A[j * n + i] = 0;
+                A[j * n + i] = 0; //Finds to make all the coefficient in column to zero.
             }
         }
         for(int i = 0 ; i < n ; ++i){
-            x[i] = b[i];
+            x[i] = b[i]; //Solves equation at vector x such that Ax = b with
         }
     }
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Solves a system of linear equations Ax=b, given a matrix A (size n x n) and vector b(size n).
+ * @role : Solves a system of linear equations Ax=b, given a matrix A (size n x n) and vector b(size n).
  * Uses Gauss elimination algorithm based on truangularization and the ascension solving.
-        Returns a boolean variable:
-        *  true in case of success and
-        *  false in case of failure, for example matrix is of rank <n .
- * @return error
+ *
+ * @return error :
+ *      -  true in case of success and
+ *      -  false in case of failure, for example matrix is of rank < n .
  */
 bool solve_system_gauss (){
 
     bool error;
 
-    error = triangularize();
+    error = triangularize(); //Triangulize the matrix, if the function failed, return "false".
     solve_triangular_system_UP();
 
     return error;
 }
 
 // ******************************************** Calcul polynomial ********************************************
-
 /**
- * Search the index between two number of table number X.
+ * @role : Search the index between two number of table number X.
  * @param absiss value of absiss for the function.
  * @return the corresponding index (-1 if impossible).
  */
@@ -231,15 +224,14 @@ int search_index (double absiss) {
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Calcul with the good polynom a number.
+ * @role : Calcul with the good polynom a number.
  * @param absiss
  * @return Result of calcul.
  */
 double polynom (double absiss) {
     int index;
-    if ((index = search_index(absiss)) != -1) { //
+    if ((index = search_index(absiss)) != -1) { //COMMENTAIRE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         return p[index * 4 + 0] + (absiss - X[index]) * (p[index * 4 + 1] + (absiss - X[index]) * (p[index * 4 + 2] +
                                                                                                    p[index * 4 + 3] *
                                                                                                    (absiss -
@@ -249,16 +241,15 @@ double polynom (double absiss) {
 }
 
 //----------------------------------------------------------------------------------------------------
-
 /**
- * Calcul with the good polynom double array.
+ * @role : Calcul with the good polynom double array.
  * @param u
  */
-void polynom (const vector<double>& u) {
+void polynomial (const vector<double>& u) {
 
     if (!u.empty()) {
         cout << "\n" << endl;
-        cout << "Solution Pi(u) : " << endl;
+        cout << "Solution Pi(u) :\n" << endl;
         for (double i : u) {
             cout << polynom(i) << endl; //Calcul a0_j + a1_j * u_i + a2_j * u_i² + a3_j * u_i³.
         }
@@ -266,16 +257,20 @@ void polynom (const vector<double>& u) {
     }
 }
 
+//---------------------------------------------------------------------------------------------------------------------
 /**
- * Verification and initialization var.
+ * @role : Verification and initialization var.
  * @param XX
  * @param YY
  * @return error in int (-1, -2 or 0).
  */
 int initialization (vector<double> XX, const vector<double>& YY) {
+
     if ((N = XX.size()) == YY.size() && N > 2) {
+
         for (int i = 0 ; i < N - 1 ; ++i) {
-            if (XX[i + 1] <= XX[i]) {
+
+            if (XX[i + 1] <= XX[i]) { // Test if entry in XX is strictly increasing.
                 cout << "Abscissa error : Is not strictly increasing." << endl;
                 return -1;
             }
@@ -303,18 +298,19 @@ int initialization (vector<double> XX, const vector<double>& YY) {
     }
 }
 
+//---------------------------------------------------------------------------------------------------------------------
 /**
- * Start initialization and draw result.
+ * @role : Start initialization and draw result.
  */
 void start () {
     create_A();
     create_b();
 
     cout << "\n***************************************************** Ax = b *****************************************************" << endl;
-    cout << "\nMatrix A :" << endl;
+    cout << "\nMatrix A :\n" << endl;
     write_matrix(stdout, A, n, n);
 
-    cout << "\nMatrix b :" << endl;
+    cout << "\nMatrix b :\n" << endl;
     write_matrix(stdout, b, n, 1);
 
     if (!solve_system_gauss()) {
@@ -322,14 +318,14 @@ void start () {
         exit(0);
     }
 
-    cout << "\nSolution matrix x :" << endl;
+    cout << "\nSolution matrix x :\n" << endl;
     write_matrix(stdout, x, n, 1);
 
-    cout << "\nMatrix m :" << endl;
+    cout << "\nMatrix m :\n" << endl;
     create_m();
     write_matrix(stdout, m, N, 1);
 
-    cout << "\nMatrix p polynomial:" << endl;
+    cout << "\nMatrix p polynomial:\n" << endl;
     create_p();
     write_matrix(stdout, p, N - 1, 4);
 }
@@ -339,6 +335,7 @@ void start () {
 int main () {
 
     // -------------------------------------- IN --------------------------------------
+    //An example takes in web-site of M BORER.
     vector<double> XX = {-3.8, -3, -1.9, -0.3, 0.9, 2.1, 3.1, 4.2, 5.4};
     vector<double> YY = {0.19, 0.46, 0.48, -0.19, 1.3, 0.19, 0.29, 0.4, -0.57};
 
@@ -350,6 +347,6 @@ int main () {
 
     // ------------------------------------- Test -------------------------------------
     vector<double> u = {-3.4, -3.38, -3.2, -1.98, -1.44, 1.42, 2.19, 5.34};
-    polynom(u);
+    polynomial(u);
 
 }
