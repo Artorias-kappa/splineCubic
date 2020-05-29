@@ -1,4 +1,4 @@
-/*
+/**
  * @projet : Le but de ce projet est de calculer et d’évaluer une interpolation par polynômes cubiques.
  *
  * @creation : 10/02/2020
@@ -123,7 +123,7 @@ void switch_line (int indexOriginalLine, int indexFinalLine) {
     for (int j = 0 ; j < n ; ++j) {
         A_memories[j] = A[indexFinalLine * n + j]; //Save the element at the finally position before switch.
         A[indexFinalLine * n + j] = A[indexOriginalLine * n + j]; //Replace final element with original element.
-        A[indexOriginalLine * n + j] = A_memories[j]; //
+        A[indexOriginalLine * n + j] = A_memories[j]; //Replace orginal element with final element.
     }
 }
 
@@ -135,10 +135,10 @@ void switch_line (int indexOriginalLine, int indexFinalLine) {
 void switch_and_verification_zero_column (bool & error) {
     bool errorV = false;
     for ( int i = 0 ; i < n ; ++i ) {
-        if (A[i * n + i] == 0) {
+        if (A[i * n + i] == 0) { //Verification id element in diagonal equals zero.
             for ( int j = i ; j < n ; ++j ) {
-                if (A[j * n + i] != 0) {
-                    switch_line(i, j);
+                if (A[j * n + i] != 0) { //Verification if element under zero is not equals zero too.
+                    switch_line(i, j); //Switch element in diagonal with element under.
                     error = errorV;
                 }
             }
@@ -161,8 +161,8 @@ bool triangularize (){
     bool error = true;
 
     for ( int i = 0 ; i < n - 1 ; ++i ) {
-        if ( A[i * n + i] == 0 ) {
-            switch_and_verification_zero_column(error); //COMMENTAIRE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        if ( A[i * n + i] == 0 ) { //Verification id element in diagonal equals zero.
+            switch_and_verification_zero_column(error); //Start switch line.
         }
         for ( int k = i ; k < n - 1 ; ++k ) {
             addition = A[(k + 1) * n + i] / A[i * n + i]; //Search coefficient depending pivot.
