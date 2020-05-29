@@ -3,8 +3,8 @@
  *
  * @creation : 10/02/2020
  *
- * @createur : Sofiane (sofiane.couedel@etu.univ-nantes.fr),
- *             Lou-anne (lou-anne.sauvetre@etu.univ-nantes.fr),
+ * @createur : COUEDEL Sofiane (sofiane.couedel@etu.univ-nantes.fr),
+ *             SAUVETRE Lou-anne (lou-anne.sauvetre@etu.univ-nantes.fr),
  *             GARNIER Cyprien (cyprien.garnier@etu.univ-nantes.fr).
  *
  * @choix : Il a été choisi de matérialiser les matrices dans un tableau à une dimension, plutot qu'un tableau à deux dimensions qui aurait été plus représentatif mais beaucoup plus couteux.
