@@ -3,11 +3,11 @@
  *
  * @creation : 10/02/2020
  *
- * @createur : Sofiane (sofiane@etu.univ-nantes.fr),
- *             Lou-anne (@etu.univ-nantes.fr),
+ * @createur : Sofiane (sofiane.couedel@etu.univ-nantes.fr),
+ *             Lou-anne (lou-anne.sauvetre@etu.univ-nantes.fr),
  *             GARNIER Cyprien (cyprien.garnier@etu.univ-nantes.fr).
  *
- * @choix : Il a été choisi de matérialiser les matrices dans un tableau à une colonne, plutot qu'un double tableau qui aurait été plus représentatif mais beaucoup plus couteux.
+ * @choix : Il a été choisi de matérialiser les matrices dans un tableau à une dimension, plutot qu'un tableau à deux dimensions qui aurait été plus représentatif mais beaucoup plus couteux.
  * On evolue donc dans le tableau avec la formule [ligne * taille de matrice + colonne] pour trouver l'indice.
  * 
  */
@@ -121,9 +121,9 @@ void create_p () {
 void switch_line (int indexOriginalLine, int indexFinalLine) {
     double* A_memories = allocate_vector(n);
     for (int j = 0 ; j < n ; ++j) {
-        A_memories[j] = A[indexFinalLine * n + j];
-        A[indexFinalLine * n + j] = A[indexOriginalLine * n + j];
-        A[indexOriginalLine * n + j] = A_memories[j];
+        A_memories[j] = A[indexFinalLine * n + j]; //Save the element at the finally position before switch.
+        A[indexFinalLine * n + j] = A[indexOriginalLine * n + j]; //Replace final element with original element.
+        A[indexOriginalLine * n + j] = A_memories[j]; //
     }
 }
 
