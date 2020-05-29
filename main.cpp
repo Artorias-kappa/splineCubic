@@ -148,9 +148,9 @@ void switch_and_verification_zero_column (bool & error) {
 
 //----------------------------------------------------------------------------------------------------
 /**
- * Performs Gauss elimination for given a matrix A (size n x n) and a vector b (size n).
+ * @role : Performs Gauss elimination for given a matrix A (size n x n) and a vector b (size n).
  * Modifies directly matrix A and vector b.
- * In the end of the function, A is upper truangular and b is modified accordingly.
+ * In the end of the function, A is upper triangular and b is modified accordingly.
  *
  * @return boolean :
  *     - true in case of success.
@@ -203,7 +203,7 @@ void solve_triangular_system_UP (){
 //----------------------------------------------------------------------------------------------------
 /**
  * @role : Solves a system of linear equations Ax=b, given a matrix A (size n x n) and vector b(size n).
- * Uses Gauss elimination algorithm based on truangularization and the ascension solving.
+ * Uses Gauss elimination algorithm based on triangularization and the ascension solving.
  *
  * @return error :
  *      -  true in case of success and
@@ -314,6 +314,7 @@ int initialization (vector<double> XX, const vector<double>& YY) {
 //---------------------------------------------------------------------------------------------------------------------
 /**
  * @role : Start initialization and draw result.
+ * @precondition : this function requires that the matrices used are initialized.
  */
 void start () {
     create_A();
