@@ -1,11 +1,15 @@
 /*
- * @projet : 
+ * @projet : Le but de ce projet est de calculer et d’évaluer une interpolation par polynômes cubiques.
  *
  * @creation : 10/02/2020
  *
  * @createur : Sofiane (sofiane@etu.univ-nantes.fr),
  *             Lou-anne (@etu.univ-nantes.fr),
  *             GARNIER Cyprien (cyprien.garnier@etu.univ-nantes.fr).
+ *
+ * @choix : Il a été choisi de matérialiser les matrices dans un tableau à une colonne, plutot qu'un double tableau qui aurait été plus représentatif mais beaucoup plus couteux.
+ * On evolue donc dans le tableau avec la formule [ligne * taille de matrice + colonne] pour trouver l'indice.
+ * 
  */
 
 
