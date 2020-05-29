@@ -1,7 +1,7 @@
 /**
  * @projet : Le but de ce projet est de calculer et d’évaluer une interpolation par polynômes cubiques.
  *
- * @creation : 10/02/2020
+ * @creation : mai 2020
  *
  * @createur : COUEDEL Sofiane (sofiane.couedel@etu.univ-nantes.fr),
  *             SAUVETRE Lou-anne (lou-anne.sauvetre@etu.univ-nantes.fr),
