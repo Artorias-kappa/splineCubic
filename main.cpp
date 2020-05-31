@@ -54,7 +54,7 @@ void write_matrix (FILE *stream, double *w, uint64_t n_, uint64_t m_)
     {
         for(j = 0; j < m_; ++j)
         {
-            fprintf(stream, "%f \t", w[i * m_ + j]); //Display matrix.
+            fprintf(stream, "%9f \t", w[i * m_ + j]); //Display matrix.
         }
         fprintf(stream, "\n");
     }
@@ -350,8 +350,8 @@ int main () {
 
     // -------------------------------------- IN --------------------------------------
     //An example takes in web-site of M BORER.
-    vector<double> XX = {-3.8, -3, -1.9, -0.3, 0.9, 2.1, 3.1, 4.2, 5.4};
-    vector<double> YY = {0.19, 0.46, 0.48, -0.19, 1.3, 0.19, 0.29, 0.4, -0.57};
+    vector<double> XX = {-4.8, -3.6, -2.8, -1.6, -0.3, 0.7, 2.1, 3.5, 4.8, 5.9, 6.8};
+    vector<double> YY = {-0.28, -0.59, -1.03, -1.61, -1.53, 0.02, -0.57, -1.1, -1.55, -1.53, -0.13};
 
     // -------------------------------- Initialization --------------------------------
     if (initialization(XX, YY) != 0) {
@@ -360,7 +360,7 @@ int main () {
     start();
 
     // ------------------------------------- Test -------------------------------------
-    vector<double> u = {-3.4, -3.38, -3.2, -1.98, -1.44, 1.42, 2.19, 5.34};
+    vector<double> u = {-3.79, -3.41, 4.06, 4.11, 4.29, 5.89, 6.21};
     polynomial(u);
 
 }
